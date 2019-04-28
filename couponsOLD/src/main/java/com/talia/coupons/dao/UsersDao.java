@@ -23,7 +23,7 @@ public class UsersDao implements IUsersDao{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet result = null;
-//trykjjnnjkn
+
 		try {
 			connection = JdbcUtils.getConnection();
 			String sqlStatement = "INSERT INTO users (user_name, user_password,user_type, company_id) VALUES (?,?,?,?)";
