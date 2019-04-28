@@ -16,10 +16,7 @@ import com.talia.coupons.exceptions.ApplicationException;
 import com.talia.coupons.interfaces.ICouponsDao;
 import com.talia.coupons.utils.JdbcUtils;
 
-
 public class CouponsDao implements ICouponsDao {
-
-
 
 	public long addCoupon(Coupon coupon) throws ApplicationException {
 
@@ -60,7 +57,6 @@ public class CouponsDao implements ICouponsDao {
 		}
 	}
 
-
 	public void updateCoupon(Coupon coupon) throws ApplicationException {
 
 		Connection connection = null;
@@ -93,7 +89,6 @@ public class CouponsDao implements ICouponsDao {
 		}
 	}
 
-	
 	public void deleteCoupon(long couponID) throws ApplicationException {
 
 		Connection connection = null;
@@ -114,7 +109,6 @@ public class CouponsDao implements ICouponsDao {
 		}
 	}
 
-
 	public void deleteAllCompanyCoupons(long companyId) throws ApplicationException {
 
 		Connection connection = null;
@@ -134,16 +128,15 @@ public class CouponsDao implements ICouponsDao {
 		}
 	}
 
-
 	public void deleteAllExpiredCoupons() throws ApplicationException {
-	
+
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet result = null;
 		Date currentDate = new Date();
-	
+
 		try {
-	
+
 			connection = JdbcUtils.getConnection();
 			String sqlStatement = "SELECT coupon_id , coupon_end_date FROM coupons";
 			preparedStatement = connection.prepareStatement(sqlStatement);
@@ -152,7 +145,7 @@ public class CouponsDao implements ICouponsDao {
 				if (currentDate.after(result.getDate("coupon_end_date")))
 					deleteCoupon(result.getLong("coupon_id"));
 			}
-	
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new ApplicationException(e, ErrorType.DELETE_ERROR, "Failed to delete all expired coupons");
@@ -160,7 +153,6 @@ public class CouponsDao implements ICouponsDao {
 			JdbcUtils.closeResources(connection, preparedStatement, result);
 		}
 	}
-
 
 	public List<Coupon> getAllCoupons() throws ApplicationException {
 
@@ -190,8 +182,6 @@ public class CouponsDao implements ICouponsDao {
 		}
 	}
 
-	
-	
 	public Coupon getOneCoupon(long couponID) throws ApplicationException {
 
 		Connection connection = null;
@@ -358,8 +348,7 @@ public class CouponsDao implements ICouponsDao {
 			return customerCoupons;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new ApplicationException(e, ErrorType.READ_ERROR,
-					"Failed to get company coupons by max price");
+			throw new ApplicationException(e, ErrorType.READ_ERROR, "Failed to get company coupons by max price");
 		} finally {
 			JdbcUtils.closeResources(connection, preparedStatement, resultSet);
 		}
@@ -370,10 +359,13 @@ public class CouponsDao implements ICouponsDao {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		List<Coupon> customerCoupons = new ArrayList<Coupon>();
-		String sqlQuery = "SELECT * FROM coupons WHERE coupon_id IN (SELECT coupon_id FROM purchases WHERE customer_id=?)";
 
 		try {
+
 			connection = JdbcUtils.getConnection();
+
+			String sqlQuery = "SELECT * FROM coupons WHERE coupon_id IN (SELECT coupon_id FROM purchases WHERE customer_id=?)";
+
 			preparedStatement = connection.prepareStatement(sqlQuery);
 			preparedStatement.setLong(1, customerId);
 			resultSet = preparedStatement.executeQuery();
@@ -385,8 +377,7 @@ public class CouponsDao implements ICouponsDao {
 			return customerCoupons;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new ApplicationException(e, ErrorType.READ_ERROR,
-					"Failed to get customer coupons");
+			throw new ApplicationException(e, ErrorType.READ_ERROR, "Failed to get customer coupons");
 		} finally {
 			JdbcUtils.closeResources(connection, preparedStatement, resultSet);
 		}
@@ -397,10 +388,11 @@ public class CouponsDao implements ICouponsDao {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		List<Coupon> filteredCustomerCoupons = new ArrayList<Coupon>();
-		String sqlQuery = "SELECT * FROM coupons WHERE coupon_id IN (SELECT coupon_id FROM purchases WHERE customer_id=?) AND category_id=?";
 
 		try {
 			connection = JdbcUtils.getConnection();
+			String sqlQuery = "SELECT * FROM coupons WHERE coupon_id IN (SELECT coupon_id FROM purchases WHERE customer_id=?) AND category_id=?";
+
 			preparedStatement = connection.prepareStatement(sqlQuery);
 			preparedStatement.setLong(1, customerId);
 			preparedStatement.setLong(2, getCategoryID(category));
@@ -440,14 +432,12 @@ public class CouponsDao implements ICouponsDao {
 			return filteredCustomerCoupons;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new ApplicationException(e, ErrorType.READ_ERROR,
-					"Failed to get customer coupons with a max price");
+			throw new ApplicationException(e, ErrorType.READ_ERROR, "Failed to get customer coupons with a max price");
 		} finally {
 			JdbcUtils.closeResources(connection, preparedStatement, resultSet);
 		}
 	}
 
-	
 	public boolean isTitleExists(long companyId, String title) throws ApplicationException {
 
 		Connection connection = null;
@@ -477,7 +467,6 @@ public class CouponsDao implements ICouponsDao {
 		}
 	}
 
-	
 	public boolean isCouponExpired(Coupon coupon) throws ApplicationException {
 
 		Date currentDate = new Date();
@@ -488,8 +477,6 @@ public class CouponsDao implements ICouponsDao {
 		return true;
 	}
 
-
-	
 	private long getCategoryID(Category category) throws ApplicationException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -497,15 +484,15 @@ public class CouponsDao implements ICouponsDao {
 
 		try {
 			connection = JdbcUtils.getConnection();
-			String sqlStatement = String.format(String.format("SELECT * FROM  CATEGORIES WHERE category_name=? "));
-		
+			String sqlStatement = String.format("SELECT * FROM  CATEGORIES WHERE category_name=? ");
+
 			preparedStatement = connection.prepareStatement(sqlStatement);
-			
+
 			preparedStatement.setString(1, category.name());
 
 			result = preparedStatement.executeQuery();
 
-			if(result.next()) {
+			if (result.next()) {
 				return result.getLong("category_id");
 			}
 			throw new ApplicationException(ErrorType.QUERY_ERROR, "Failed to get category Id");
@@ -519,12 +506,11 @@ public class CouponsDao implements ICouponsDao {
 		}
 	}
 
-
 	private static Category getCategoryString(int index) {
 		return Category.values()[index - 1];
 	}
 
-		Coupon extractCouponFromResultSet(ResultSet result) throws ApplicationException {
+	Coupon extractCouponFromResultSet(ResultSet result) throws ApplicationException {
 		try {
 			Coupon coupon = new Coupon();
 			coupon.setCouponId(result.getLong("coupon_id"));
@@ -544,7 +530,4 @@ public class CouponsDao implements ICouponsDao {
 		}
 	}
 
-	
-
-	
 }

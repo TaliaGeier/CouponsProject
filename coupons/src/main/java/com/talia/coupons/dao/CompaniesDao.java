@@ -68,7 +68,7 @@ public class CompaniesDao implements ICompaniesDao {
 		}
 	}
 
-	public void deleteCompany(long companyID) throws ApplicationException {
+	public void deleteCompany(long companyId) throws ApplicationException {
 
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -78,7 +78,7 @@ public class CompaniesDao implements ICompaniesDao {
 			connection = JdbcUtils.getConnection();
 			String sqlStatement = "DELETE FROM COMPANIES WHERE company_id=?";
 			preparedStatement = connection.prepareStatement(sqlStatement);
-			preparedStatement.setLong(1, companyID);
+			preparedStatement.setLong(1, companyId);
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -253,17 +253,17 @@ public class CompaniesDao implements ICompaniesDao {
 		}
 	}
 
-	private Company extractCompanyFromResultSet(ResultSet result) throws ApplicationException {
-		try {
+	private Company extractCompanyFromResultSet(ResultSet result) throws ApplicationException, SQLException {
+//		try {
 			Company company = new Company();
 			company.setId(result.getLong("company_id"));
 			company.setName(result.getString("company_name"));
 			company.setEmail(result.getString("company_email"));
 			return company;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new ApplicationException(e, ErrorType.READ_ERROR, "Failed to extract company");
-		}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			throw new ApplicationException(e, ErrorType.READ_ERROR, "Failed to extract company");
+//		}
 
 	}
 

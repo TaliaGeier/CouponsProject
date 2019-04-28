@@ -4,20 +4,13 @@ import java.util.ArrayList;
 
 import com.talia.coupons.dao.CouponsDao;
 
-/**
- * CouponExpirationDailyJob - creating a daily job which runs in the background using a thread and deletes all expired coupons from the DB.
- */
 public class CouponExpirationDailyJob implements Runnable {
 
 	
-	//Constructor
 	public CouponExpirationDailyJob() {
 	}
 	
 	
-	/**
-	 * run - starts the thread, the function deletes all expired coupons.
-	 */
 	@Override
 	public void run() {
 
