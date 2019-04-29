@@ -1,6 +1,5 @@
 package com.talia.coupons.daily.job;
 
-import java.util.ArrayList;
 import java.util.TimerTask;
 
 import com.talia.coupons.dao.CouponsDao;
@@ -13,7 +12,6 @@ public class CouponExpirationDailyJob  extends TimerTask {
 	private CouponsDao couponsDao;
 	private PurchasesDao purchasesDao;
 
-	//---------------------CTOR----------------------
 	public CouponExpirationDailyJob() {
 		this.couponsDao = new CouponsDao();
 		this.purchasesDao = new PurchasesDao();
