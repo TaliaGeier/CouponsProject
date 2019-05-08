@@ -93,5 +93,7 @@ public class CompanyController {
 		userDao.deleteUsersByCompanyId(companyId);
 
 		companyDao.deleteCompany(companyId);
+
+		
 	}
 }

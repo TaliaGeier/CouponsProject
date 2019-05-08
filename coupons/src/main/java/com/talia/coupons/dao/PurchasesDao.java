@@ -318,8 +318,7 @@ public class PurchasesDao implements IPurchasesDao{
 		}
 	}
 	private Purchases extractPurchaseFromResultSet(ResultSet result)
-			throws ApplicationException {
-		try {
+			throws ApplicationException, SQLException {
 		Purchases purchase = new Purchases();
 	
 		purchase.setPurchaseId(result.getLong("purchase_id"));
@@ -327,10 +326,7 @@ public class PurchasesDao implements IPurchasesDao{
 		purchase.setCouponId(result.getLong("coupon_id"));
 		purchase.setAmount(result.getInt("purchase_amount"));
 		return purchase;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new ApplicationException(e, ErrorType.QUERY_ERROR, "Failed to extract purchase from result set");
-		}
+	
 	}
 
 }

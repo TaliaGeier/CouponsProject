@@ -4,6 +4,7 @@ public class Customer {
 
 	// ----------------------ATTRIBUTES----------------------
 	private long customerId;
+	
 	private String customerFirstName;
 	private String customerLastName;
 	private User user;

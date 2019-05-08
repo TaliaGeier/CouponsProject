@@ -149,18 +149,15 @@ public class CustomersDao implements ICustomersDao {
 
 
 	private Customer extractCustomerFromResultSet(ResultSet result)
-			throws ApplicationException {
-		try {
+			throws ApplicationException, SQLException {
+	
 		Customer customer = new Customer();
 		customer.setCustomerId(result.getLong("customer_id"));
 		customer.setCustomerFirstName(result.getString("customer_first_name"));
 		customer.setCustomerLastName(result.getString("customer_last_name"));
 
 		return customer;
-	} catch (SQLException e) {
-		e.printStackTrace();
-		throw new ApplicationException(e, ErrorType.QUERY_ERROR, "Failed to extract customer from result set");
-	}
+	
 	}
 
 }

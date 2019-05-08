@@ -254,16 +254,12 @@ public class CompaniesDao implements ICompaniesDao {
 	}
 
 	private Company extractCompanyFromResultSet(ResultSet result) throws ApplicationException, SQLException {
-//		try {
 			Company company = new Company();
 			company.setId(result.getLong("company_id"));
 			company.setName(result.getString("company_name"));
 			company.setEmail(result.getString("company_email"));
 			return company;
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			throw new ApplicationException(e, ErrorType.READ_ERROR, "Failed to extract company");
-//		}
+
 
 	}
 

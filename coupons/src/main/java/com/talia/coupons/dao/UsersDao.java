@@ -314,22 +314,16 @@ public class UsersDao implements IUsersDao{
 	
 
 	private User extractUserFromResultSet(ResultSet result)
-			throws ApplicationException {
-		try {
+			throws ApplicationException, SQLException {
 		User user = new User();
 		UserLoginDetails userLoginDetails = new UserLoginDetails();
 		userLoginDetails.setUserEmail(result.getString("user_name"));
 		userLoginDetails.setPassword(result.getString("user_password"));
 		userLoginDetails.setType(ClientType.valueOf(result.getString("user_type")));
-		
 		user.setUserId(result.getLong("user_id"));
 		user.setCompanyId(result.getLong("company_id"));
 		user.setUserLoginDetails(userLoginDetails);
 		return user;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new ApplicationException(e, ErrorType.QUERY_ERROR, "Failed to extract user from result set");
-		}
 	}
 
 }

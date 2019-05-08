@@ -37,11 +37,15 @@ public class TestingDao {
 		try {
 			
 			// ------- CompanyController ------
-			Company company1 = new Company(2, "He@gmail.com", "abc");
+			Company company1 = new Company(2, "He@gmail12345.com", "abcklk");
 //			companyController.addCompany(company1);
 //			System.out.println(companyController.getAllCompanies());
-			companyController.updateCompany(company1);
+//			companyController.updateCompany(company1);
+//			companyController.addCompany(company1);
+//		System.out.println(	companyController.getOneCompany(1));
+//			companyController.updateCompany(company1);
 			
+			companyController.deleteCompany(2);
 			// ------ COMPANY DAO ---------
 			
 //			Company company1 = new Company("Hermes23", "Birkin3132");

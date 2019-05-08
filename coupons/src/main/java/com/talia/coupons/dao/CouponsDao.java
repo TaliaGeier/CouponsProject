@@ -510,8 +510,8 @@ public class CouponsDao implements ICouponsDao {
 		return Category.values()[index - 1];
 	}
 
-	Coupon extractCouponFromResultSet(ResultSet result) throws ApplicationException {
-		try {
+	Coupon extractCouponFromResultSet(ResultSet result) throws ApplicationException, SQLException {
+	
 			Coupon coupon = new Coupon();
 			coupon.setCouponId(result.getLong("coupon_id"));
 			coupon.setCategory(getCategoryString((int) result.getLong("category_id")));
@@ -524,10 +524,7 @@ public class CouponsDao implements ICouponsDao {
 			coupon.setImg(result.getString("coupon_image"));
 
 			return coupon;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new ApplicationException(e, ErrorType.QUERY_ERROR, "Failed to extract company from result set");
-		}
+		
 	}
 
 }
