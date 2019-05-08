@@ -72,6 +72,7 @@ public class Customer {
 	// Empty Constructor
 
 	public Customer() {
+		this.user = new User();
 	}
 
 
