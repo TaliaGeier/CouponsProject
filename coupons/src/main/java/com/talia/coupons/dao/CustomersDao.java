@@ -16,7 +16,6 @@ import com.talia.coupons.utils.JdbcUtils;
 
 
 public class CustomersDao implements ICustomersDao {
-	CouponsDao couponsDao = new CouponsDao();
 
 	public long addCustomer(Customer customer) throws ApplicationException {
 
@@ -26,18 +25,21 @@ public class CustomersDao implements ICustomersDao {
 
 		try {
 			connection = JdbcUtils.getConnection();
-			String sqlStatement = "INSERT INTO customers (customer_last_name ,customer_first_name, customer_id) VALUES (?,?,?)";
+			String sqlStatement = "INSERT INTO customers (customer_id, customer_last_name ,customer_first_name) VALUES (?,?,?)";
 			preparedStatement = connection.prepareStatement(sqlStatement);
-			preparedStatement.setString(1, customer.getCustomerLastName());
-			preparedStatement.setString(2, customer.getCustomerFirstName());
-			preparedStatement.setLong(3, customer.getUser().getUserId());
+			preparedStatement.setLong(1, customer.getUser().getUserId());
+			preparedStatement.setString(2, customer.getCustomerLastName());
+			preparedStatement.setString(3, customer.getCustomerFirstName());
+			
 
 			preparedStatement.executeUpdate();
 			
-			if (getOneCustomer(customer.getUser().getUserId()) != null) {
-				return customer.getUser().getUserId();
-			}
-			throw new ApplicationException(ErrorType.INSERTION_ERROR, "Failed to create new customer");
+//			if (getOneCustomer(customer.getUser().getUserId()) != null) {
+//			
+//			}
+			return customer.getUser().getUserId();
+			
+//			throw new ApplicationException(ErrorType.INSERTION_ERROR, "Failed to create new customer");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new ApplicationException(e, ErrorType.INSERTION_ERROR, "Failed to create new customer");
@@ -60,7 +62,7 @@ public class CustomersDao implements ICustomersDao {
 			preparedStatement = connection.prepareStatement(sqlStatement);
 			preparedStatement.setString(1, customer.getCustomerFirstName());
 			preparedStatement.setString(2, customer.getCustomerLastName());
-			preparedStatement.setLong(3, customer.getCustomerId());
+			preparedStatement.setLong(3, customer.getUser().getUserId());
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -146,13 +148,39 @@ public class CustomersDao implements ICustomersDao {
 	}
 
 
+	public boolean isCustomerExistsById(long customerID) throws ApplicationException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet result = null;
 
+		try {
+			connection = JdbcUtils.getConnection();
+			preparedStatement = connection.prepareStatement("SELECT * FROM customers WHERE customer_id = ?");
+
+			preparedStatement.setLong(1, customerID);
+			result = preparedStatement.executeQuery();
+
+			if (result.next()) {
+
+				return true;
+
+			}
+			return false;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new ApplicationException(e, ErrorType.READ_ERROR,
+					"Failed to check if customer exists with id " + customerID);
+		} finally {
+			JdbcUtils.closeResources(connection, preparedStatement, result);
+		}
+	}
 
 	private Customer extractCustomerFromResultSet(ResultSet result)
 			throws ApplicationException, SQLException {
 	
 		Customer customer = new Customer();
-		customer.setCustomerId(result.getLong("customer_id"));
+		customer.setUserId(result.getLong("customer_id"));
 		customer.setCustomerFirstName(result.getString("customer_first_name"));
 		customer.setCustomerLastName(result.getString("customer_last_name"));
 

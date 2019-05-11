@@ -14,25 +14,31 @@ import com.talia.coupons.exceptions.ApplicationException;
 public class CustomerController {
 	
 	private CustomersDao customerDao;
-	private UsersDao userDao;
-	private PurchasesDao purchaseDao;
+//	private UsersDao userDao;
+//	private PurchasesDao purchaseDao;
+	private PurchaseController purchaseController;
+	private UserController userController;
 
 	public long addCustomer(Customer customer) throws ApplicationException {
 
-		UserController userController = new UserController();
+//		UserController userController = new UserController();
 
 		isCustomerValid(customer);
-
+// ?????
 		long id = userController.addUser(customer.getUser());
-		customer.setCustomerId(id);
+		customer.setUserId(id);
 
 		return customerDao.addCustomer(customer);
 
 	}
 
 	public Customer getOneCustomer(long customerId) throws ApplicationException {
+		
+		if(isCustomerExists(customerId)) {
 
 		return customerDao.getOneCustomer(customerId);
+		}
+		throw new ApplicationException(ErrorType.READ_ERROR, "Failed to get customer");
 	}
 
 	public List<Customer> getAllCustomers() throws ApplicationException {
@@ -48,13 +54,22 @@ public class CustomerController {
 	}
 
 	public void deleteCustomer(long customerId) throws ApplicationException {
-
-		purchaseDao.deletePurchasesByCustomerId(customerId);
+		if(isCustomerExists(customerId)) {
+		
+		purchaseController.deletePurchasesByCustomerId(customerId);
 		customerDao.deleteCustomer(customerId);
-		userDao.deleteUser(customerId);
-
+		userController.deleteUser(customerId);
+		}
+		throw new ApplicationException(ErrorType.DELETE_ERROR, "Failed to delete customer");
 	}
-
+	
+	public boolean isCustomerExists (long customerID)throws ApplicationException {
+		if(customerDao.isCustomerExistsById(customerID)) {
+			return true;
+		}
+		return false;
+	}
+ 
 	private void isCustomerValid(Customer customer) throws ApplicationException {
 		if (customer.getCustomerFirstName().length() < 2) {
 			throw new ApplicationException(ErrorType.INVALID_INPUT, "First Name too short");

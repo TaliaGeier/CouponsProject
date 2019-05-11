@@ -17,23 +17,29 @@ import com.talia.coupons.utils.REGEX;
 
 public class CompanyController {
 	private CompaniesDao companyDao;
-	private CouponsDao couponDao;
-	private UsersDao userDao;
-	private PurchasesDao purchaseDao;
+//	private CouponsDao couponDao;
+//	private UsersDao userDao;
+//	private PurchasesDao purchaseDao;
+	private CouponController couponController;
+	private UserController userController;
+	private PurchaseController purchaseController;
 	
 	
-	public CompanyController(CompaniesDao companyDao) {
-		super();
-		this.companyDao = companyDao;
-	}
-	
+//	public CompanyController(CompaniesDao companyDao) {
+//		super();
+//		this.companyDao = companyDao;
+//	}
+//	
 	public long addCompany(Company company) throws ApplicationException {
 		isCompanyValidToAdd(company);
 		return companyDao.addCompany(company);
 	}
 
 	public Company getOneCompany(long companyId) throws ApplicationException {
-		return companyDao.getOneCompany(companyId);
+		if(isCompanyExists(companyId)) {
+			return companyDao.getOneCompany(companyId);
+		}
+		throw new ApplicationException(ErrorType.READ_ERROR, "Failed to get company");
 	}
 	
 	public List<Company> getAllCompanies() throws ApplicationException {
@@ -47,7 +53,16 @@ public class CompanyController {
 	}
 	
 	public void deleteCompany(long companyId) throws ApplicationException {
-		deleteCompanyLogic(companyId);
+		if(isCompanyExists(companyId)) {
+			deleteCompanyLogic(companyId);
+		}
+		throw new ApplicationException(ErrorType.DELETE_ERROR, "Failed to delete company");
+	}
+	public boolean isCompanyExists (long companyId)throws ApplicationException {
+		if(companyDao.isCompanyExistsById(companyId)) {
+			return true;
+		}
+		return false;
 	}
 	
 	private void isCompanyValidToAdd(Company company) throws ApplicationException {
@@ -86,11 +101,11 @@ public class CompanyController {
 	
 	private void deleteCompanyLogic(long companyId) throws ApplicationException {
 
-		purchaseDao.deletePurchasesByCompanyId(companyId);
+		purchaseController.deletePurchasesByCompanyId(companyId);
 
-		couponDao.deleteAllCompanyCoupons(companyId);
+		couponController.deleteAllCompanyCoupons(companyId);
 
-		userDao.deleteUsersByCompanyId(companyId);
+		userController.deleteUsersByCompanyId(companyId);
 
 		companyDao.deleteCompany(companyId);
 

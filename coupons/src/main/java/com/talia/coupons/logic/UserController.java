@@ -14,6 +14,7 @@ import com.talia.coupons.utils.REGEX;
 
 public class UserController {
 	private UsersDao userDao;
+	private CompanyController companyController;
 	
 	public ClientType login(UserLoginDetails userLoginDetails) throws ApplicationException {
 		return userDao.login(userLoginDetails.getUserEmail(), userLoginDetails.getPassword());
@@ -25,8 +26,10 @@ public class UserController {
 		return userDao.addUser(user);
 	}
 	public User getOneUser(long userId) throws ApplicationException {
-
-		return userDao.getOneUser(userId);
+		if(userDao.isUserExistsById(userId)) {
+			return userDao.getOneUser(userId);
+		}
+		throw new ApplicationException(ErrorType.READ_ERROR, "Failed to get user");
 	}
 
 	public List<User> getAllUsers() throws ApplicationException {
@@ -40,9 +43,21 @@ public class UserController {
 	}
 
 	public void deleteUser(long userToDelete) throws ApplicationException {
-		deleteUserLogic(userToDelete);
-		userDao.deleteUser(userToDelete);
+		if(userDao.isUserExistsById(userToDelete)) {
+			deleteUserLogic(userToDelete);
+			userDao.deleteUser(userToDelete);
+		}
+		throw new ApplicationException(ErrorType.DELETE_ERROR, "Failed to delete user");
 	}
+	
+	public void deleteUsersByCompanyId(long companyId) throws ApplicationException {
+		if (companyController.isCompanyExists(companyId)) {
+			userDao.deleteUsersByCompanyId(companyId);
+		}
+		throw new ApplicationException(ErrorType.DELETE_ERROR, "Failed to delete users");
+	}
+	
+	
 	private void isUserValidToAdd(User user) throws ApplicationException {
 
 		if (user.getUserLoginDetails().getUserEmail() == null) {

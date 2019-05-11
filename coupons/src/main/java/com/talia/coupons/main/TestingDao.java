@@ -32,7 +32,7 @@ public class TestingDao {
 		PurchasesDao purchasesDao = new PurchasesDao();
 		CustomersDao customersDao = new CustomersDao();
 		UsersDao usersDao = new UsersDao();
-		CompanyController companyController = new CompanyController(companyDao);
+//		CompanyController companyController = new CompanyController(companyDao);
 		
 		try {
 			
@@ -45,7 +45,7 @@ public class TestingDao {
 //		System.out.println(	companyController.getOneCompany(1));
 //			companyController.updateCompany(company1);
 			
-			companyController.deleteCompany(2);
+//			companyController.deleteCompany(2);
 			// ------ COMPANY DAO ---------
 			
 //			Company company1 = new Company("Hermes23", "Birkin3132");

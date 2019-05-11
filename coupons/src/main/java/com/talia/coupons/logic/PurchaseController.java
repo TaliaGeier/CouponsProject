@@ -2,7 +2,6 @@ package com.talia.coupons.logic;
 
 import java.util.List;
 
-import com.talia.coupons.dao.CouponsDao;
 import com.talia.coupons.dao.PurchasesDao;
 
 import com.talia.coupons.beans.Coupon;
@@ -12,15 +11,18 @@ import com.talia.coupons.exceptions.ApplicationException;
 
 public class PurchaseController {
 	private PurchasesDao purchaseDao;
-	private CouponsDao couponDao;
+//	private CouponsDao couponDao;
+	private CouponController couponController;
+	private CustomerController customerController;
+	private CompanyController companyController;
 	
 	
 	
-	public PurchaseController(PurchasesDao purchaseDao, CouponsDao couponDao) {
-		super();
-		this.purchaseDao = purchaseDao;
-		this.couponDao = couponDao;
-	}
+//	public PurchaseController(PurchasesDao purchaseDao, CouponsDao couponDao) {
+//		super();
+//		this.purchaseDao = purchaseDao;
+//		this.couponDao = couponDao;
+//	}
 
 	public long addPurchase(Purchases purchase) throws ApplicationException {
 		addPurchaseLogic(purchase);
@@ -29,8 +31,13 @@ public class PurchaseController {
 	}
 	
 	public Purchases getOnePurchase(long purchaseId) throws ApplicationException {
-
-		return purchaseDao.getOnePurchase(purchaseId);
+		
+		if(purchaseDao.isPurchaseExistsById(purchaseId)) {
+			return purchaseDao.getOnePurchase(purchaseId);
+		}
+		throw new ApplicationException(ErrorType.READ_ERROR,
+				"Failed to get purchase");
+		
 	}
 
 	public List<Purchases> getAllPurchases() throws ApplicationException {
@@ -38,17 +45,44 @@ public class PurchaseController {
 		return purchaseDao.getAllPurchases();
 	}
 
-	public void deletePurchase(long purchaseToDelete) throws ApplicationException {
-		purchaseDao.deletePurchase(purchaseToDelete);
+	public void deletePurchase(long purchaseID) throws ApplicationException {
+		
+		if(purchaseDao.isPurchaseExistsById(purchaseID)) {
+			purchaseDao.deletePurchase(purchaseID);
+		}
+		throw new ApplicationException(ErrorType.DELETE_ERROR,
+				"Failed to delete purchase");
 	}
 
 	public void deleteExpiredPurchases() throws ApplicationException {
 		purchaseDao.deleteExpiredPurchases();
 	}
+	public void deletePurchasesByCustomerId (long customerId)throws ApplicationException {
+		if (customerController.isCustomerExists(customerId)) {
+			purchaseDao.deletePurchasesByCustomerId(customerId);
+		}
+		throw new ApplicationException(ErrorType.DELETE_ERROR,
+				"Failed to delete purchases");
+	} 
+	
+	public void deletePurchasesByCompanyId (long companyId)throws ApplicationException {
+		if (companyController.isCompanyExists(companyId)) {
+			purchaseDao.deletePurchasesByCompanyId(companyId);
+		}
+		throw new ApplicationException(ErrorType.DELETE_ERROR,
+				"Failed to delete purchases");
+	} 
+	public void deletePurchasesByCouponId (long couponID)throws ApplicationException {
+		if (couponController.isCouponExists(couponID)) {
+			purchaseDao.deletePurchasesByCouponId(couponID);
+		}
+		throw new ApplicationException(ErrorType.DELETE_ERROR,
+				"Failed to delete purchases");
+	}
 	
 	private void addPurchaseLogic(Purchases purchase) throws ApplicationException {
 
-		if (couponDao.getOneCoupon(purchase.getCouponId()) == null) {
+		if (couponController.getOneCoupon(purchase.getCouponId()) == null) {
 			throw new ApplicationException(ErrorType.INVALID_INPUT,
 					"coupon number : " + purchase.getCouponId() + " was not found.");
 		}
@@ -58,13 +92,13 @@ public class PurchaseController {
 					"Purchase : " + purchase.getPurchaseId() + " already exist.");
 		}
 
-		if (couponDao.getOneCoupon(purchase.getCouponId()).getAmount() - purchase.getAmount() < 0) {
+		if (couponController.getOneCoupon(purchase.getCouponId()).getAmount() - purchase.getAmount() < 0) {
 			throw new ApplicationException(ErrorType.INVALID_INPUT, "not enough coupons in stock");
 		}
 
-		Coupon couponBought = couponDao.getOneCoupon(purchase.getCouponId());
+		Coupon couponBought = couponController.getOneCoupon(purchase.getCouponId());
 		couponBought.setAmount(couponBought.getAmount() - purchase.getAmount());
-		couponDao.updateCoupon(couponBought);
+		couponController.updateCoupon(couponBought);
 
 	}
 }

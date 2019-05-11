@@ -3,17 +3,19 @@ package com.talia.coupons.beans;
 public class Customer {
 
 	// ----------------------ATTRIBUTES----------------------
-	private long customerId;
+//	private long customerId;
 	
 	private String customerFirstName;
 	private String customerLastName;
 	private User user;
 	// ----------------------Get & Set----------------------
-	public long getCustomerId() {
-		return customerId;
+//	public long getCustomerId() {
+//		return customerId;
+//	}
+
+	public void setUserId(long userId) {
+		this.user.setUserId(userId);
 	}
-
-
 
 	public User getUser() {
 		return user;
@@ -28,9 +30,9 @@ public class Customer {
 
 
 
-	public void setCustomerId(long customerId) {
-		this.customerId = customerId;
-	}
+//	public void setCustomerId(long customerId) {
+//		this.customerId = customerId;
+//	}
 
 	public String getCustomerFirstName() {
 		return customerFirstName;
@@ -53,9 +55,9 @@ public class Customer {
 	
 	// With the id attribute
 
-	public Customer(long customerId, String customerFirstName, String customerLastName) {
+	public Customer(User user, String customerFirstName, String customerLastName) {
 		super();
-		this.customerId = customerId;
+		this.user = user;
 		this.customerFirstName = customerFirstName;
 		this.customerLastName = customerLastName;
 	}
@@ -63,11 +65,11 @@ public class Customer {
 
 	// Without the id attribute
 	
-	public Customer(String customerFirstName, String customerLastName) {
-		super();
-		this.customerFirstName = customerFirstName;
-		this.customerLastName = customerLastName;
-	}
+//	public Customer(String customerFirstName, String customerLastName) {
+//		super();
+//		this.customerFirstName = customerFirstName;
+//		this.customerLastName = customerLastName;
+//	}
 
 	// Empty Constructor
 
@@ -89,7 +91,7 @@ public class Customer {
 	// ----------------------Functions----------------------
 	@Override
 	public String toString() {
-		return "CUSTOMER [Last Name:" + customerLastName + ", First Name:" + customerFirstName + ", ID:" + customerId + "]";
+		return "CUSTOMER [Last Name:" + customerLastName + ", First Name:" + customerFirstName + ", ID:" + user.getUserId() + "]";
 	}
 
 }

@@ -437,6 +437,37 @@ public class CouponsDao implements ICouponsDao {
 			JdbcUtils.closeResources(connection, preparedStatement, resultSet);
 		}
 	}
+	
+	public boolean isCouponExistsById(long couponID) throws ApplicationException {
+
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		try {
+
+			connection = JdbcUtils.getConnection();
+
+			preparedStatement = connection.prepareStatement("SELECT * FROM coupons WHERE coupon_id = ?");
+
+			preparedStatement.setLong(1, couponID);
+
+			resultSet = preparedStatement.executeQuery();
+
+			if (resultSet.next()) {
+
+				return true;
+			}
+
+			return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new ApplicationException(e, ErrorType.QUERY_ERROR, "Query to check if company exists failed");
+
+		} finally {
+			JdbcUtils.closeResources(connection, preparedStatement, resultSet);
+		}
+	}
 
 	public boolean isTitleExists(long companyId, String title) throws ApplicationException {
 

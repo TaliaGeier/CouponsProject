@@ -8,6 +8,7 @@ import com.talia.coupons.dao.CouponsDao;
 import com.talia.coupons.dao.PurchasesDao;
 
 import com.talia.coupons.beans.Coupon;
+import com.talia.coupons.beans.Customer;
 import com.talia.coupons.enums.Category;
 import com.talia.coupons.enums.ErrorType;
 import com.talia.coupons.exceptions.ApplicationException;
@@ -15,70 +16,125 @@ import com.talia.coupons.exceptions.ApplicationException;
 public class CouponController {
 
 	private CouponsDao couponDao;
-	private PurchasesDao purchaseDao;
-	private CompaniesDao companyDao;
-	
+//	private PurchasesDao purchaseDao;
+//	private CompaniesDao companyDao;
+	private PurchaseController purchaseController;
+	private CompanyController companyController;
+	private CustomerController customerController;
+
 	public long addCoupon(Coupon coupon) throws ApplicationException {
 		isCouponValidToAdd(coupon);
 		return couponDao.addCoupon(coupon);
 	}
-	public Coupon getOneCoupon(long couponId) throws ApplicationException {
 
-		return couponDao.getOneCoupon(couponId);
+	public Coupon getOneCoupon(long couponId) throws ApplicationException {
+		if (isCouponExists(couponId)) {
+			return couponDao.getOneCoupon(couponId);
+		}
+		throw new ApplicationException(ErrorType.READ_ERROR, "Failed to get coupon");
+
 	}
+
 	public List<Coupon> getAllCoupons() throws ApplicationException {
 
 		return couponDao.getAllCoupons();
 	}
-	
+
 	public List<Coupon> getAllCouponsByMaxPrice(Double price) throws ApplicationException {
 
 		return couponDao.getAllCouponsByMaxPrice(price);
 	}
-	
+
 	public List<Coupon> getAllCouponsByCategory(Category category) throws ApplicationException {
 
 		return couponDao.getAllCouponsByCategory(category);
 	}
-	public List<Coupon> getCompanyCoupons(long companyId) throws ApplicationException {
 
-		return couponDao.getCompanyCoupons(companyId);
+	public List<Coupon> getCompanyCoupons(long companyId) throws ApplicationException {
+		if(companyController.isCompanyExists(companyId)) {
+			return couponDao.getCompanyCoupons(companyId);
+		}
+
+		throw new ApplicationException(ErrorType.READ_ERROR, "Failed to get coupons");
 	}
+
 	public List<Coupon> getCompanyCouponsByCategory(long companyId, Category category) throws ApplicationException {
 
-		return couponDao.getCompanyCouponsByCategory(companyId, category);
+		
+		if(companyController.isCompanyExists(companyId)) {
+			return couponDao.getCompanyCouponsByCategory(companyId, category);
+		}
+
+		throw new ApplicationException(ErrorType.READ_ERROR, "Failed to get coupons");
 	}
+
 	public List<Coupon> getCompanyCouponsByMaxPrice(long companyId, double maxPrice) throws ApplicationException {
 
-		return couponDao.getCompanyCouponsByMaxPrice(companyId, maxPrice);
-	}
-	
-	public List<Coupon> getCustomerCoupons(long customerId) throws ApplicationException {
+		
+		if(companyController.isCompanyExists(companyId)) {
+			return couponDao.getCompanyCouponsByMaxPrice(companyId, maxPrice);
+		}
 
-		return couponDao.getCustomerCoupons(customerId);
+		throw new ApplicationException(ErrorType.READ_ERROR, "Failed to get coupons");
 	}
-	
+
+	public List<Coupon> getCustomerCoupons(long customerId) throws ApplicationException {
+		
+		if(customerController.isCustomerExists(customerId)) {
+			return couponDao.getCustomerCoupons(customerId);
+		}
+		throw new ApplicationException(ErrorType.READ_ERROR, "Failed to get coupons");
+	}
+
 	public List<Coupon> getCustomerCouponsByCategory(long customerId, Category category) throws ApplicationException {
 
-		return couponDao.getCustomerCouponsByCategory(customerId, category);
-	}
 	
+		if(customerController.isCustomerExists(customerId)) {
+			return couponDao.getCustomerCouponsByCategory(customerId, category);
+		}
+		throw new ApplicationException(ErrorType.READ_ERROR, "Failed to get coupons");
+	}
+
 	public List<Coupon> getCustomerCouponsByMaxPrice(long customerId, Double maxPrice) throws ApplicationException {
 
-		return couponDao.getCustomerCouponsByMaxPrice(customerId, maxPrice);
+		
+		if(customerController.isCustomerExists(customerId)) {
+			return couponDao.getCustomerCouponsByMaxPrice(customerId, maxPrice);
+		}
+		throw new ApplicationException(ErrorType.READ_ERROR, "Failed to get coupons");
 	}
+
+
 	public void updateCoupon(Coupon coupon) throws ApplicationException {
 		isCouponValidToUpdate(coupon);
 		couponDao.updateCoupon(coupon);
 	}
 
 	public void deleteCoupon(long couponId) throws ApplicationException {
-		purchaseDao.deletePurchasesByCouponId(couponId);
-		couponDao.deleteCoupon(couponId);
+		if(isCouponExists(couponId)) {
+			purchaseController.deletePurchasesByCouponId(couponId);
+			couponDao.deleteCoupon(couponId);
+		}
+		throw new ApplicationException(ErrorType.DELETE_ERROR, "Failed to delete coupon");
 	}
+
+	public void deleteAllCompanyCoupons(long companyID) throws ApplicationException {
+		if (companyController.isCompanyExists(companyID)) {
+			couponDao.deleteAllCompanyCoupons(companyID);
+		}
+		throw new ApplicationException(ErrorType.DELETE_ERROR, "Failed to delete all company's coupons");
+	}
+
+	public boolean isCouponExists(long couponID) throws ApplicationException {
+		if (couponDao.isCouponExistsById(couponID)) {
+			return true;
+		}
+		return false;
+	}
+
 	private void isCouponValidToAdd(Coupon coupon) throws ApplicationException {
 
-		if (companyDao.getOneCompany(coupon.getCompanyId()) == null) {
+		if (companyController.getOneCompany(coupon.getCompanyId()) == null) {
 			throw new ApplicationException(ErrorType.INVALID_INPUT,
 					"Company: " + coupon.getCompanyId() + " was not found while trying to add a coupon");
 		}
@@ -98,10 +154,10 @@ public class CouponController {
 		}
 
 	}
-	
+
 	private void isCouponValidToUpdate(Coupon coupon) throws ApplicationException {
 
-		if (companyDao.getOneCompany(coupon.getCompanyId()) == null
+		if (companyController.getOneCompany(coupon.getCompanyId()) == null
 				|| couponDao.getOneCoupon(coupon.getCouponId()) == null) {
 			throw new ApplicationException(ErrorType.INVALID_INPUT,
 					"Company: " + coupon.getCompanyId() + " was not found while trying to add a coupon");
@@ -122,6 +178,7 @@ public class CouponController {
 		}
 
 	}
+
 	private void validateCouponTitle(String title) throws ApplicationException {
 		if (title.length() < 5) {
 			throw new ApplicationException(ErrorType.INVALID_INPUT, "coupon is title is too short.");
@@ -158,4 +215,3 @@ public class CouponController {
 
 	}
 }
-

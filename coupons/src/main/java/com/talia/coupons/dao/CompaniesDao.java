@@ -16,7 +16,6 @@ import com.talia.coupons.interfaces.ICompaniesDao;
 import com.talia.coupons.utils.JdbcUtils;
 
 public class CompaniesDao implements ICompaniesDao {
-	CouponsDao couponsDao = new CouponsDao();
 
 	public long addCompany(Company company) throws ApplicationException {
 		Connection connection = null;
