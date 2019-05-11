@@ -11,18 +11,11 @@ import com.talia.coupons.exceptions.ApplicationException;
 
 public class PurchaseController {
 	private PurchasesDao purchaseDao;
-//	private CouponsDao couponDao;
 	private CouponController couponController;
 	private CustomerController customerController;
 	private CompanyController companyController;
 	
 	
-	
-//	public PurchaseController(PurchasesDao purchaseDao, CouponsDao couponDao) {
-//		super();
-//		this.purchaseDao = purchaseDao;
-//		this.couponDao = couponDao;
-//	}
 
 	public long addPurchase(Purchases purchase) throws ApplicationException {
 		addPurchaseLogic(purchase);

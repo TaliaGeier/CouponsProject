@@ -109,9 +109,8 @@ public class UserController {
 			throw new ApplicationException(ErrorType.READ_ERROR, "user: " + userIdToDelete + " was not found");
 		}
 		/*
-		 * if the user is a customer we must delete his customer table before deleting
-		 * the user. so we call the customer controller to delete the customer and his
-		 * purchases.
+		 * if the user is a customer we must delete the customer info before deleting
+		 * the user
 		 */
 		if (userToDelete.getUserLoginDetails().getType() == ClientType.CUSTOMER) {
 			customerController.deleteCustomer(userIdToDelete);
@@ -119,7 +118,7 @@ public class UserController {
 		}
 
 		/*
-		 * if the user is a company agent
+		 * if the user is a company representative
 		 */
 		if (userToDelete.getUserLoginDetails().getType() == ClientType.COMPANY) {
 			userDao.deleteUser(userIdToDelete);
