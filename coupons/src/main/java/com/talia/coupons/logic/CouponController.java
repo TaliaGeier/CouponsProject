@@ -16,8 +16,6 @@ import com.talia.coupons.exceptions.ApplicationException;
 public class CouponController {
 
 	private CouponsDao couponDao;
-//	private PurchasesDao purchaseDao;
-//	private CompaniesDao companyDao;
 	private PurchaseController purchaseController;
 	private CompanyController companyController;
 	private CustomerController customerController;

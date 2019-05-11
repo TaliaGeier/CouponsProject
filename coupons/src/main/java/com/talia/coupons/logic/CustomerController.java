@@ -14,17 +14,13 @@ import com.talia.coupons.exceptions.ApplicationException;
 public class CustomerController {
 	
 	private CustomersDao customerDao;
-//	private UsersDao userDao;
-//	private PurchasesDao purchaseDao;
 	private PurchaseController purchaseController;
 	private UserController userController;
 
 	public long addCustomer(Customer customer) throws ApplicationException {
 
-//		UserController userController = new UserController();
 
 		isCustomerValid(customer);
-// ?????
 		long id = userController.addUser(customer.getUser());
 		customer.setUserId(id);
 

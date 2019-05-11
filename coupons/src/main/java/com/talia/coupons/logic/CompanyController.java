@@ -17,19 +17,11 @@ import com.talia.coupons.utils.REGEX;
 
 public class CompanyController {
 	private CompaniesDao companyDao;
-//	private CouponsDao couponDao;
-//	private UsersDao userDao;
-//	private PurchasesDao purchaseDao;
 	private CouponController couponController;
 	private UserController userController;
 	private PurchaseController purchaseController;
 	
 	
-//	public CompanyController(CompaniesDao companyDao) {
-//		super();
-//		this.companyDao = companyDao;
-//	}
-//	
 	public long addCompany(Company company) throws ApplicationException {
 		isCompanyValidToAdd(company);
 		return companyDao.addCompany(company);
