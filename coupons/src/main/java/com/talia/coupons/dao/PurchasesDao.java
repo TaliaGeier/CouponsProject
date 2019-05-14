@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.talia.coupons.beans.Purchases;
 import com.talia.coupons.enums.ErrorType;
 import com.talia.coupons.exceptions.ApplicationException;
@@ -14,6 +16,7 @@ import com.talia.coupons.exceptions.ApplicationException;
 import com.talia.coupons.interfaces.IPurchasesDao;
 import com.talia.coupons.utils.JdbcUtils;
 
+@Repository
 public class PurchasesDao implements IPurchasesDao{
 	
 

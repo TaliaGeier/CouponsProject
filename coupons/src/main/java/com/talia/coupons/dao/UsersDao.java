@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.talia.coupons.beans.User;
 import com.talia.coupons.beans.UserLoginDetails;
 import com.talia.coupons.exceptions.ApplicationException;
@@ -17,8 +19,12 @@ import com.talia.coupons.enums.ErrorType;
 import com.talia.coupons.utils.DateUtils;
 import com.talia.coupons.utils.JdbcUtils;
 
+@Repository
 public class UsersDao implements IUsersDao{
 	
+	
+
+
 	public long addUser(User user) throws ApplicationException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -26,20 +32,17 @@ public class UsersDao implements IUsersDao{
 
 		try {
 			connection = JdbcUtils.getConnection();
-			String sqlStatement = "INSERT INTO users (user_name, user_password,user_type, company_id) VALUES (?,?,?,?)";
-			
-			preparedStatement = connection.prepareStatement(sqlStatement, preparedStatement.RETURN_GENERATED_KEYS);
-			
+			String sqlStatement = "INSERT INTO Users (user_name, user_password, user_type, company_id ) VALUES (?,?,?,?)";
+
+			preparedStatement = connection.prepareStatement(sqlStatement, PreparedStatement.RETURN_GENERATED_KEYS);
 			preparedStatement.setString(1, user.getUserLoginDetails().getUserEmail());
 			preparedStatement.setString(2, user.getUserLoginDetails().getPassword());
 			preparedStatement.setString(3, user.getUserLoginDetails().getType().name());
-
 			if (user.getCompanyId() == null) {
 				preparedStatement.setString(4, null);
 			} else {
 				preparedStatement.setLong(4, user.getCompanyId());
 			}
-
 			preparedStatement.executeUpdate();
 
 			result = preparedStatement.getGeneratedKeys();

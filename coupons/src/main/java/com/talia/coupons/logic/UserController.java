@@ -2,22 +2,39 @@ package com.talia.coupons.logic;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
 import com.talia.coupons.dao.UsersDao;
 
-import com.talia.coupons.beans.Coupon;
 import com.talia.coupons.beans.User;
-import com.talia.coupons.beans.UserLoginDetails;
 import com.talia.coupons.enums.ClientType;
 import com.talia.coupons.enums.ErrorType;
 import com.talia.coupons.exceptions.ApplicationException;
+import com.talia.coupons.interfaces.ICacheManager;
 import com.talia.coupons.utils.REGEX;
 
+@Controller
 public class UserController {
+	
+	@Autowired
 	private UsersDao userDao;
+	@Autowired
 	private CompanyController companyController;
 	
-	public ClientType login(UserLoginDetails userLoginDetails) throws ApplicationException {
-		return userDao.login(userLoginDetails.getUserEmail(), userLoginDetails.getPassword());
+	@Autowired
+	private ICacheManager cacheManager;
+	
+	public ClientType login(User user) throws ApplicationException {
+		ClientType clientType = userDao.login(user.getUserLoginDetails().getUserEmail(), user.getUserLoginDetails().getPassword());
+		int token = generateEncryptedToken(user.getUserLoginDetails().getUserEmail());
+		cacheManager.put(token, clientType);
+		return clientType;
+	}
+
+	private int generateEncryptedToken(String user) {
+		String token = "Salt - junk data" + user + "Sheker kolshehu";
+		return token.hashCode();
 	}
 	
 	public long addUser(User user) throws ApplicationException {
@@ -77,11 +94,11 @@ public class UserController {
 			throw new ApplicationException(ErrorType.INVALID_INPUT, "user password must contain atleast 6 chars.");
 		}
 
-		if (user.getCompanyId() == null || user.getCompanyId() == 0) {
-			user.getUserLoginDetails().setType(ClientType.CUSTOMER);
-		} else {
-			user.getUserLoginDetails().setType(ClientType.COMPANY);
-		}
+//		if (user.getCompanyId() == null || user.getCompanyId() == 0) {
+//			user.getUserLoginDetails().setType(ClientType.CUSTOMER);
+//		} else {
+//			user.getUserLoginDetails().setType(ClientType.COMPANY);
+//		}
 
 	}
 	private void isUserValidToUpdate(User user) throws ApplicationException {

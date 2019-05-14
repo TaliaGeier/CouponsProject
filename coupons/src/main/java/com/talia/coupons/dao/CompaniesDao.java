@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.talia.coupons.beans.Company;
 import com.talia.coupons.enums.ErrorType;
 import com.talia.coupons.exceptions.ApplicationException;
@@ -15,6 +17,7 @@ import com.talia.coupons.exceptions.ApplicationException;
 import com.talia.coupons.interfaces.ICompaniesDao;
 import com.talia.coupons.utils.JdbcUtils;
 
+@Repository
 public class CompaniesDao implements ICompaniesDao {
 
 	public long addCompany(Company company) throws ApplicationException {
@@ -140,7 +143,7 @@ public class CompaniesDao implements ICompaniesDao {
 		}
 	}
 
-	@Override
+	
 	public String getCompanyDetails(long companyId) throws ApplicationException {
 
 		Connection connection = null;

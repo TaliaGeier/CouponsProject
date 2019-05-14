@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.talia.coupons.beans.Customer;
 import com.talia.coupons.enums.ErrorType;
 import com.talia.coupons.exceptions.ApplicationException;
@@ -14,7 +16,7 @@ import com.talia.coupons.exceptions.ApplicationException;
 import com.talia.coupons.interfaces.ICustomersDao;
 import com.talia.coupons.utils.JdbcUtils;
 
-
+@Repository
 public class CustomersDao implements ICustomersDao {
 
 	public long addCustomer(Customer customer) throws ApplicationException {

@@ -2,6 +2,9 @@ package com.talia.coupons.logic;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
 import com.talia.coupons.dao.CustomersDao;
 import com.talia.coupons.dao.PurchasesDao;
 import com.talia.coupons.dao.UsersDao;
@@ -11,10 +14,16 @@ import com.talia.coupons.beans.Customer;
 import com.talia.coupons.enums.ErrorType;
 import com.talia.coupons.exceptions.ApplicationException;
 
+@Controller
 public class CustomerController {
 	
+	@Autowired
 	private CustomersDao customerDao;
+	
+	@Autowired
 	private PurchaseController purchaseController;
+	
+	@Autowired
 	private UserController userController;
 
 	public long addCustomer(Customer customer) throws ApplicationException {

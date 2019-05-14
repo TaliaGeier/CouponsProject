@@ -1,7 +1,9 @@
 package com.talia.coupons.logic;
 
-
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import com.talia.coupons.dao.CompaniesDao;
 import com.talia.coupons.dao.CouponsDao;
@@ -13,49 +15,57 @@ import com.talia.coupons.enums.ErrorType;
 import com.talia.coupons.exceptions.ApplicationException;
 import com.talia.coupons.utils.REGEX;
 
-
+@Controller
 public class CompanyController {
+
+	@Autowired
 	private CompaniesDao companyDao;
+
+	@Autowired
 	private CouponController couponController;
+
+	@Autowired
 	private UserController userController;
+
+	@Autowired
 	private PurchaseController purchaseController;
-	
-	
+
 	public long addCompany(Company company) throws ApplicationException {
 		isCompanyValidToAdd(company);
 		return companyDao.addCompany(company);
 	}
 
 	public Company getOneCompany(long companyId) throws ApplicationException {
-		if(isCompanyExists(companyId)) {
+		if (isCompanyExists(companyId)) {
 			return companyDao.getOneCompany(companyId);
 		}
 		throw new ApplicationException(ErrorType.READ_ERROR, "Failed to get company");
 	}
-	
+
 	public List<Company> getAllCompanies() throws ApplicationException {
 		return companyDao.getAllCompanies();
 	}
-	
+
 	public void updateCompany(Company company) throws ApplicationException {
 		isCompanyValidToUpdate(company);
 		companyDao.updateCompany(company);
 
 	}
-	
+
 	public void deleteCompany(long companyId) throws ApplicationException {
-		if(isCompanyExists(companyId)) {
+		if (isCompanyExists(companyId)) {
 			deleteCompanyLogic(companyId);
 		}
 		throw new ApplicationException(ErrorType.DELETE_ERROR, "Failed to delete company");
 	}
-	public boolean isCompanyExists (long companyId)throws ApplicationException {
-		if(companyDao.isCompanyExistsById(companyId)) {
+
+	public boolean isCompanyExists(long companyId) throws ApplicationException {
+		if (companyDao.isCompanyExistsById(companyId)) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	private void isCompanyValidToAdd(Company company) throws ApplicationException {
 
 		if (company.getName() == null) {
@@ -89,7 +99,7 @@ public class CompanyController {
 		}
 
 	}
-	
+
 	private void deleteCompanyLogic(long companyId) throws ApplicationException {
 
 		purchaseController.deletePurchasesByCompanyId(companyId);
@@ -100,6 +110,5 @@ public class CompanyController {
 
 		companyDao.deleteCompany(companyId);
 
-		
 	}
 }

@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.talia.coupons.beans.Coupon;
 import com.talia.coupons.enums.Category;
 import com.talia.coupons.enums.ErrorType;
@@ -15,7 +17,7 @@ import com.talia.coupons.exceptions.ApplicationException;
 
 import com.talia.coupons.interfaces.ICouponsDao;
 import com.talia.coupons.utils.JdbcUtils;
-
+@Repository
 public class CouponsDao implements ICouponsDao {
 
 	public long addCoupon(Coupon coupon) throws ApplicationException {
