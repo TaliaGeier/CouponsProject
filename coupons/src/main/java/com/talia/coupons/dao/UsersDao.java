@@ -145,6 +145,31 @@ public class UsersDao implements IUsersDao{
 		}
 	}
 
+	public User getOneUserByEmail(String userEmail) throws ApplicationException {
+
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet result = null;
+
+		try {
+			connection = JdbcUtils.getConnection();
+			String sqlStatement = "SELECT * FROM USERS WHERE user_name =?";
+			preparedStatement = connection.prepareStatement(sqlStatement);
+			preparedStatement.setString(1, userEmail);
+			result = preparedStatement.executeQuery();
+			if (!result.next()) {
+				return null;
+			}
+			return extractUserFromResultSet(result);
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new ApplicationException(e, ErrorType.READ_ERROR, "Failed to get user");
+		} finally {
+			JdbcUtils.closeResources(connection, preparedStatement, result);
+		}
+	}
 	public List<User> getAllUsers() throws ApplicationException {
 	
 		Connection connection = null;
@@ -191,7 +216,7 @@ public class UsersDao implements IUsersDao{
 			result=preparedStatement.executeQuery();
 
 			if (result.next()) {
-				ClientType clientType = ClientType.valueOf(result.getString("type"));
+				ClientType clientType = ClientType.valueOf(result.getString("user_type"));
 				return clientType;
 			}
 

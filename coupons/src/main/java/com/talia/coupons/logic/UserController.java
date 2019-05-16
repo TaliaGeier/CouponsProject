@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import com.talia.coupons.dao.UsersDao;
 
 import com.talia.coupons.beans.User;
+import com.talia.coupons.beans.UserLoginDetails;
 import com.talia.coupons.enums.ClientType;
 import com.talia.coupons.enums.ErrorType;
 import com.talia.coupons.exceptions.ApplicationException;
@@ -23,13 +24,23 @@ public class UserController {
 	private CompanyController companyController;
 	
 	@Autowired
-	private ICacheManager cacheManager;
+	private CacheManager cacheManager;
 	
-	public ClientType login(User user) throws ApplicationException {
-		ClientType clientType = userDao.login(user.getUserLoginDetails().getUserEmail(), user.getUserLoginDetails().getPassword());
-		int token = generateEncryptedToken(user.getUserLoginDetails().getUserEmail());
-		cacheManager.put(token, clientType);
-		return clientType;
+	public UserLoginDetails login(String email, String password) throws ApplicationException {
+		UserLoginDetails userLoginDetails = generateLoginDetails(email);
+		ClientType clientType = userDao.login(email, password);
+		
+		cacheManager.put(userLoginDetails.getToken(), clientType);
+		
+		return userLoginDetails;
+	}
+
+	private UserLoginDetails generateLoginDetails(String email) throws ApplicationException {
+		User user = userDao.getOneUserByEmail(email);
+		int token = generateEncryptedToken(email);
+		UserLoginDetails userLoginDetails = new UserLoginDetails(user.getUserLoginDetails().getUserEmail(), user.getUserLoginDetails().getPassword(), user.getUserLoginDetails().getType(), token, user.getUserLoginDetails().getCompanyID());
+		
+		return userLoginDetails;
 	}
 
 	private int generateEncryptedToken(String user) {

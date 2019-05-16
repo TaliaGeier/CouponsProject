@@ -7,7 +7,23 @@ public class UserLoginDetails {
 	private String userEmail;
 	private String password;
 	private ClientType type;
+	private int token;
+	private long companyID;
 	
+	
+	
+	public int getToken() {
+		return token;
+	}
+	public void setToken(int token) {
+		this.token = token;
+	}
+	public long getCompanyID() {
+		return companyID;
+	}
+	public void setCompanyID(long companyID) {
+		this.companyID = companyID;
+	}
 	// GETTERS AND SETTERS
 	public String getUserEmail() {
 		return userEmail;
@@ -35,6 +51,23 @@ public class UserLoginDetails {
 		this.userEmail = userEmail;
 		this.password = password;
 		this.type = type;
+	}
+	// everything but token
+	public UserLoginDetails(String userEmail, String password, ClientType type, long companyID) {
+		super();
+		this.userEmail = userEmail;
+		this.password = password;
+		this.type = type;
+		this.companyID = companyID;
+	}
+	// with everything
+	public UserLoginDetails(String userEmail, String password, ClientType type, int token, long companyID) {
+		super();
+		this.userEmail = userEmail;
+		this.password = password;
+		this.type = type;
+		this.token = token;
+		this.companyID = companyID;
 	}
 	// empty constructor
 	public UserLoginDetails() {

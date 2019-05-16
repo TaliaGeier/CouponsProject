@@ -27,8 +27,8 @@ public class UserApi {
 	private UserController userController;
 
 	@PostMapping("/login")
-	public ClientType login(@RequestBody UserLoginDetails userLoginDetails) throws ApplicationException {
-		return userController.login(userLoginDetails);
+	public UserLoginDetails login(@RequestBody User user) throws ApplicationException {
+		return userController.login(user.getUserLoginDetails().getUserEmail(), user.getUserLoginDetails().getPassword());
 	}
 
 	@PostMapping

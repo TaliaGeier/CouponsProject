@@ -50,6 +50,13 @@ public class User {
 		this.userId = userId;
 		this.companyId = companyId;
 	}
+	
+	
+	public User(long userId, UserLoginDetails userLoginDetails) {
+		super();
+		this.userId = userId;
+		this.userLoginDetails = userLoginDetails;
+	}
 	// empty constructor
 	public User() {
 		super();
