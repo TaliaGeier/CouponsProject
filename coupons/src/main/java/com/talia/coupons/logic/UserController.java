@@ -30,7 +30,7 @@ public class UserController {
 		UserLoginDetails userLoginDetails = generateLoginDetails(email);
 		ClientType clientType = userDao.login(email, password);
 		
-		cacheManager.put(userLoginDetails.getToken(), clientType);
+		cacheManager.put(clientType, userLoginDetails);
 		
 		return userLoginDetails;
 	}
@@ -38,7 +38,7 @@ public class UserController {
 	private UserLoginDetails generateLoginDetails(String email) throws ApplicationException {
 		User user = userDao.getOneUserByEmail(email);
 		int token = generateEncryptedToken(email);
-		UserLoginDetails userLoginDetails = new UserLoginDetails(user.getUserLoginDetails().getUserEmail(), user.getUserLoginDetails().getPassword(), user.getUserLoginDetails().getType(), token, user.getUserLoginDetails().getCompanyID());
+		UserLoginDetails userLoginDetails = new UserLoginDetails(user.getUserLoginDetails().getUserEmail(), user.getUserLoginDetails().getPassword(), user.getUserLoginDetails().getType(), token, user.getCompanyId());
 		
 		return userLoginDetails;
 	}

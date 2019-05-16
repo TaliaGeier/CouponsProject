@@ -8,7 +8,7 @@ public class UserLoginDetails {
 	private String password;
 	private ClientType type;
 	private int token;
-	private long companyID;
+//	private long companyID;
 	
 	
 	
@@ -18,12 +18,12 @@ public class UserLoginDetails {
 	public void setToken(int token) {
 		this.token = token;
 	}
-	public long getCompanyID() {
-		return companyID;
-	}
-	public void setCompanyID(long companyID) {
-		this.companyID = companyID;
-	}
+//	public long getCompanyID() {
+//		return companyID;
+//	}
+//	public void setCompanyID(long companyID) {
+//		this.companyID = companyID;
+//	}
 	// GETTERS AND SETTERS
 	public String getUserEmail() {
 		return userEmail;
@@ -58,7 +58,7 @@ public class UserLoginDetails {
 		this.userEmail = userEmail;
 		this.password = password;
 		this.type = type;
-		this.companyID = companyID;
+//		this.companyID = companyID;
 	}
 	// with everything
 	public UserLoginDetails(String userEmail, String password, ClientType type, int token, long companyID) {
@@ -67,7 +67,7 @@ public class UserLoginDetails {
 		this.password = password;
 		this.type = type;
 		this.token = token;
-		this.companyID = companyID;
+//		this.companyID = companyID;
 	}
 	// empty constructor
 	public UserLoginDetails() {
