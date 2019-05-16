@@ -122,10 +122,10 @@ public class UserController {
 			throw new ApplicationException(ErrorType.UPDATE_ERROR, "Cant update user company Id.");
 		}
 
-		if (userDao.getOneUser(user.getUserId()).getUserLoginDetails().getType() != user.getUserLoginDetails()
-				.getType()) {
-			throw new ApplicationException(ErrorType.UPDATE_ERROR, "Cant update user Type.");
-		}
+//		if (userDao.getOneUser(user.getUserId()).getUserLoginDetails().getType() != user.getUserLoginDetails()
+//				.getType()) {
+//			throw new ApplicationException(ErrorType.UPDATE_ERROR, "Cant update user Type.");
+//		}
 
 	}
 	private void deleteUserLogic(long userIdToDelete) throws ApplicationException {
