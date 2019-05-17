@@ -102,13 +102,26 @@ public class CompanyController {
 
 	private void deleteCompanyLogic(long companyId) throws ApplicationException {
 
+		try {
 		purchaseController.deletePurchasesByCompanyId(companyId);
+		}catch(ApplicationException e) {
+			e.printStackTrace();
+		}
 
+		try {
 		couponController.deleteAllCompanyCoupons(companyId);
+		}catch(ApplicationException e) {
+			e.printStackTrace();
+		}
 
+		try {
 		userController.deleteUsersByCompanyId(companyId);
-
+		}catch(ApplicationException e) {
+			e.printStackTrace();
+		}
+		finally {
 		companyDao.deleteCompany(companyId);
-
-	}
+		}
+	
+		}	
 }

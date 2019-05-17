@@ -168,7 +168,7 @@ public class PurchasesDao implements IPurchasesDao{
 		try {
 
 			connection = JdbcUtils.getConnection();
-			String sqlStatement = "DELETE FROM purchases WHERE coupon_id IN ( SELECT coupon_id FROM coupons WHERE company_id = ?);";
+			String sqlStatement = "DELETE FROM purchases WHERE coupon_id IN ( SELECT coupon_id FROM coupons WHERE company_id = ?)";
 			preparedStatement = connection.prepareStatement(sqlStatement);
 			preparedStatement.setLong(1, companyId);
 			preparedStatement.executeUpdate();
@@ -320,6 +320,8 @@ public class PurchasesDao implements IPurchasesDao{
 			JdbcUtils.closeResources(connection, preparedStatement, result);
 		}
 	}
+	
+
 	private Purchases extractPurchaseFromResultSet(ResultSet result)
 			throws ApplicationException, SQLException {
 		Purchases purchase = new Purchases();
