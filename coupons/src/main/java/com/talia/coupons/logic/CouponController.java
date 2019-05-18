@@ -196,25 +196,25 @@ public class CouponController {
 
 	private void validateCouponTitle(String title) throws ApplicationException {
 		if (title.length() <= 3) {
-			throw new ApplicationException(ErrorType.INVALID_INPUT, "coupon is title is too short.");
+			throw new ApplicationException(ErrorType.INVALID_INPUT, "coupon title is too short.");
 		}
 	}
 
 	private void validateCouponDescription(String description) throws ApplicationException {
 		if (description.length() < 5) {
-			throw new ApplicationException(ErrorType.INVALID_INPUT, "coupon is description is too short.");
+			throw new ApplicationException(ErrorType.INVALID_INPUT, "coupon description is too short.");
 		}
 	}
 
 	private void validateCouponAmount(int amount) throws ApplicationException {
 		if (amount < 0) {
-			throw new ApplicationException(ErrorType.INVALID_INPUT, "coupon amount cant be less than 0.");
+			throw new ApplicationException(ErrorType.INVALID_INPUT, "coupon amount can't be less than 0.");
 		}
 	}
 
 	private void validateCouponPrice(Double price) throws ApplicationException {
 		if (price < 0) {
-			throw new ApplicationException(ErrorType.INVALID_INPUT, "coupon price cant be 0 or under.");
+			throw new ApplicationException(ErrorType.INVALID_INPUT, "coupon price can't be 0 or under.");
 		}
 	}
 
