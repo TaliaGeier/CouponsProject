@@ -91,7 +91,6 @@ public class PurchasesDao implements IPurchasesDao{
 			preparedStatement = connection.prepareStatement(sqlStatement);
 			preparedStatement.setLong(1, purchaseID);
 			preparedStatement.executeUpdate();
-			System.out.println("deleted");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new ApplicationException(e, ErrorType.DELETE_ERROR, "Failed to delete purchase");
