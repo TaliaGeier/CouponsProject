@@ -60,10 +60,15 @@ public class CustomerController {
 
 	public void deleteCustomer(long customerId) throws ApplicationException {
 		if(isCustomerExists(customerId)) {
-		
-		purchaseController.deletePurchasesByCustomerId(customerId);
+		try {
+			purchaseController.deletePurchasesByCustomerId(customerId);
+		}catch(ApplicationException e) {
+			e.printStackTrace();
+		}
+		finally{
 		customerDao.deleteCustomer(customerId);
 		userController.deleteUser(customerId);
+		}
 		}
 		throw new ApplicationException(ErrorType.DELETE_ERROR, "Failed to delete customer");
 	}

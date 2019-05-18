@@ -195,7 +195,7 @@ public class CouponController {
 	}
 
 	private void validateCouponTitle(String title) throws ApplicationException {
-		if (title.length() <= 3) {
+		if (title.length() < 3) {
 			throw new ApplicationException(ErrorType.INVALID_INPUT, "coupon title is too short.");
 		}
 	}
