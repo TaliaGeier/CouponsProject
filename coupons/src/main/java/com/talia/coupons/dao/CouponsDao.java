@@ -547,6 +547,7 @@ public class CouponsDao implements ICouponsDao {
 	
 			Coupon coupon = new Coupon();
 			coupon.setCouponId(result.getLong("coupon_id"));
+			coupon.setCompanyId(result.getLong("company_id"));
 			coupon.setCategory(getCategoryString((int) result.getLong("category_id")));
 			coupon.setTitle(result.getString("coupon_title"));
 			coupon.setDescription(result.getString("coupon_description"));
