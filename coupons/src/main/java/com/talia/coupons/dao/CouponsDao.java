@@ -221,7 +221,7 @@ public class CouponsDao implements ICouponsDao {
 
 		try {
 			connection = JdbcUtils.getConnection();
-			preparedStatement = connection.prepareStatement("SELECT * FROM COUPONS WHERE coupon_price < ? ");
+			preparedStatement = connection.prepareStatement("SELECT * FROM COUPONS WHERE coupon_price <= ? ");
 			preparedStatement.setDouble(1, price);
 			result = preparedStatement.executeQuery();
 

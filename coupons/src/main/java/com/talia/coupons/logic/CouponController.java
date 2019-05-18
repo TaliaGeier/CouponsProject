@@ -121,8 +121,14 @@ public class CouponController {
 
 	public void deleteCoupon(long couponId) throws ApplicationException {
 		if(isCouponExists(couponId)) {
+			try {
 			purchaseController.deletePurchasesByCouponId(couponId);
+			}catch(ApplicationException e) {
+				e.printStackTrace();
+			}
+			finally {
 			couponDao.deleteCoupon(couponId);
+			}
 		}
 		throw new ApplicationException(ErrorType.DELETE_ERROR, "Failed to delete coupon");
 	}
@@ -189,7 +195,7 @@ public class CouponController {
 	}
 
 	private void validateCouponTitle(String title) throws ApplicationException {
-		if (title.length() < 5) {
+		if (title.length() <= 3) {
 			throw new ApplicationException(ErrorType.INVALID_INPUT, "coupon is title is too short.");
 		}
 	}
