@@ -140,6 +140,7 @@ public class UserController {
 		 * if the user is a customer we must delete the customer info before deleting
 		 * the user
 		 */
+		
 		if (userToDelete.getUserLoginDetails().getType() == ClientType.CUSTOMER) {
 			customerController.deleteCustomer(userIdToDelete);
 			return;
