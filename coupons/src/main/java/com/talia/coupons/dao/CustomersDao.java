@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.talia.coupons.beans.Customer;
+import com.talia.coupons.beans.User;
 import com.talia.coupons.enums.ErrorType;
 import com.talia.coupons.exceptions.ApplicationException;
 
@@ -182,9 +183,21 @@ public class CustomersDao implements ICustomersDao {
 			throws ApplicationException, SQLException {
 	
 		Customer customer = new Customer();
+		
+		User user = new User();
+		
+		UsersDao userDao = new UsersDao();
 		customer.setUserId(result.getLong("customer_id"));
 		customer.setCustomerFirstName(result.getString("customer_first_name"));
 		customer.setCustomerLastName(result.getString("customer_last_name"));
+		
+		
+		
+		
+		user.setUserId(result.getLong("customer_id"));
+		user = userDao.getOneUser(user.getUserId());
+//		customer.setCustomerId(user.getUserId());
+		customer.setUser(user);
 
 		return customer;
 	
