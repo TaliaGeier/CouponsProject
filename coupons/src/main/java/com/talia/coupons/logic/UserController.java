@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import com.talia.coupons.dao.UsersDao;
 
 import com.talia.coupons.beans.User;
+import com.talia.coupons.beans.UserDataMap;
 import com.talia.coupons.beans.UserLoginDetails;
 import com.talia.coupons.enums.ClientType;
 import com.talia.coupons.enums.ErrorType;
@@ -26,21 +27,30 @@ public class UserController {
 	@Autowired
 	private CacheManager cacheManager;
 	
-	public UserLoginDetails login(String email, String password) throws ApplicationException {
-		UserLoginDetails userLoginDetails = generateLoginDetails(email);
+	public UserDataMap login(String email, String password) throws ApplicationException {
 		ClientType clientType = userDao.login(email, password);
 		
-		cacheManager.put(clientType, userLoginDetails);
+		if (clientType == null)
+		{
+			throw new ApplicationException(ErrorType.LOGIN_FAILED, "Invalid user or password");
+		}
 		
-		return userLoginDetails;
+		int token = generateEncryptedToken(email);
+		UserDataMap userDataMap = generateLoginDetails(email);
+		cacheManager.put(token, userDataMap);
+		
+		return userDataMap;
 	}
 
-	private UserLoginDetails generateLoginDetails(String email) throws ApplicationException {
+	private UserDataMap generateLoginDetails(String email) throws ApplicationException {
 		User user = userDao.getOneUserByEmail(email);
-		int token = generateEncryptedToken(email);
-		UserLoginDetails userLoginDetails = new UserLoginDetails(user.getUserLoginDetails().getUserEmail(), user.getUserLoginDetails().getPassword(), user.getUserLoginDetails().getType(), token, user.getCompanyId());
+		UserDataMap userDataMap = new UserDataMap(
+				user.getUserId(),
+				user.getCompanyId(),
+				user.getUserLoginDetails().getType());
+				
 		
-		return userLoginDetails;
+		return userDataMap;
 	}
 
 	private int generateEncryptedToken(String user) {

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.talia.coupons.beans.User;
+import com.talia.coupons.beans.UserDataMap;
 import com.talia.coupons.beans.UserLoginDetails;
 import com.talia.coupons.enums.ClientType;
 import com.talia.coupons.exceptions.ApplicationException;
@@ -27,7 +28,7 @@ public class UserApi {
 	private UserController userController;
 
 	@PostMapping("/login")
-	public UserLoginDetails login(@RequestBody User user) throws ApplicationException {
+	public UserDataMap login(@RequestBody User user) throws ApplicationException {
 		return userController.login(user.getUserLoginDetails().getUserEmail(), user.getUserLoginDetails().getPassword());
 	}
 
