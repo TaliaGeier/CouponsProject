@@ -35,19 +35,21 @@ public class UserController {
 			throw new ApplicationException(ErrorType.LOGIN_FAILED, "Invalid user or password");
 		}
 		
-		int token = generateEncryptedToken(email);
+		
 		UserDataMap userDataMap = generateLoginDetails(email);
-		cacheManager.put(token, userDataMap);
+		cacheManager.put(userDataMap.getToken(), userDataMap);
 		
 		return userDataMap;
 	}
 
 	private UserDataMap generateLoginDetails(String email) throws ApplicationException {
+		int token = generateEncryptedToken(email);
 		User user = userDao.getOneUserByEmail(email);
 		UserDataMap userDataMap = new UserDataMap(
 				user.getUserId(),
 				user.getCompanyId(),
-				user.getUserLoginDetails().getType());
+				user.getUserLoginDetails().getType(),
+				token);
 				
 		
 		return userDataMap;
