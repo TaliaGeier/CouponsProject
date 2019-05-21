@@ -1,0 +1,6 @@
+<p>
+  Enter email: <input type="text" [(ngModel)]="user.userLoginDetails.userEmail">
+  <br>
+  Enter password: <input type="password" [(ngModel)]="user.userLoginDetails.password">
+<button (click)="usersService.login(user)">Submit</button>
+</p>
