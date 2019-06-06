@@ -42,13 +42,13 @@ public class CouponApi {
 		return couponController.getAllCoupons();
 	}
 
-	@GetMapping("/ByMaxPrice")
+	@GetMapping("/byMaxPrice")
 	public List<Coupon> getAllCouponsByMaxPrice(@RequestParam("maxPrice") Double price) throws ApplicationException {
 
 		return couponController.getAllCouponsByMaxPrice(price);
 	}
 
-	@GetMapping("/ByCategory")
+	@GetMapping("/byCategory")
 
 	public List<Coupon> getAllCouponsByCategory(@RequestParam("category") Category category)
 			throws ApplicationException {
@@ -56,38 +56,38 @@ public class CouponApi {
 		return couponController.getAllCouponsByCategory(category);
 	}
 
-	@GetMapping("/ByCompanyId")
+	@GetMapping("/byCompany")
 	public List<Coupon> getCompanyCoupons(@RequestParam("companyId") long companyId) throws ApplicationException {
 		return couponController.getCompanyCoupons(companyId);
 	}
 
-	@GetMapping("/ByCompanyIdAndCategory")
+	@GetMapping("/byCompany/category")
 	public List<Coupon> getCompanyCouponsByCategory(@RequestParam("companyId") long companyId,
 			@RequestParam("category") Category category) throws ApplicationException {
 
 		return couponController.getCompanyCouponsByCategory(companyId, category);
 	}
 
-	@GetMapping("/ByCompanyIdAndMaxPrice")
+	@GetMapping("/byCompany/maxPrice")
 	public List<Coupon> getCompanyCouponsByMaxPrice(@RequestParam("companyId") long companyId,
 			@RequestParam("maxPrice") double maxPrice) throws ApplicationException {
 
 		return couponController.getCompanyCouponsByMaxPrice(companyId, maxPrice);
 	}
 
-	@GetMapping("/ByCustomerId")
+	@GetMapping("/byCustomer")
 	public List<Coupon> getCustomerCoupons(@RequestParam("customerId") long customerId) throws ApplicationException {
 
 		return couponController.getCustomerCoupons(customerId);
 	}
 
-	@GetMapping("/ByCustomerIdAndCategory")
+	@GetMapping("/byCustomer/category")
 	public List<Coupon> getCustomerCouponsByCategory(@RequestParam("customerId") long customerId,
 			@RequestParam("category") Category category) throws ApplicationException {
 		return couponController.getCustomerCouponsByCategory(customerId, category);
 	}
 
-	@GetMapping("/ByCustomerIdAndMaxPrice")
+	@GetMapping("/byCustomer/maxPrice")
 	public List<Coupon> getCustomerCouponsByMaxPrice(@RequestParam("customerId") long customerId,
 			@RequestParam("maxPrice") Double maxPrice) throws ApplicationException {
 		return couponController.getCustomerCouponsByMaxPrice(customerId, maxPrice);
