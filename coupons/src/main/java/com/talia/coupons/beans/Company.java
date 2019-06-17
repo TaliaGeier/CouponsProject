@@ -8,29 +8,7 @@ public class Company {
 	private String companyEmail;
 
 	// ----------------------Get & Set----------------------
-	public long getId() {
-		return id;
-	}
 
-	public String getName() {
-		return companyName;
-	}
-
-	public String getEmail() {
-		return companyEmail;
-	}
-
-	public void setEmail(String email) {
-		this.companyEmail = email;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public void setName(String name) {
-		this.companyName = name;
-	}
 
 	// ----------------------Constructors----------------------
 
@@ -40,6 +18,30 @@ public class Company {
 		this.id = id;
 		this.companyEmail = email;
 		this.companyName = name;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public String getCompanyEmail() {
+		return companyEmail;
+	}
+
+	public void setCompanyEmail(String companyEmail) {
+		this.companyEmail = companyEmail;
 	}
 
 	// Without the id attribute

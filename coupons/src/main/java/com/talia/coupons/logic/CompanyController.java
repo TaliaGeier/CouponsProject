@@ -68,21 +68,21 @@ public class CompanyController {
 
 	private void isCompanyValidToAdd(Company company) throws ApplicationException {
 
-		if (company.getName() == null) {
+		if (company.getCompanyName() == null) {
 			throw new ApplicationException(ErrorType.INVALID_INPUT, "Company name cant be null");
 		}
-		if (company.getName().length() < 2) {
+		if (company.getCompanyName().length() < 2) {
 			throw new ApplicationException(ErrorType.INVALID_INPUT, "Company name is too short");
 		}
-		if (companyDao.isCompanyExistsByEmail(company.getEmail())) {
+		if (companyDao.isCompanyExistsByEmail(company.getCompanyEmail())) {
 			throw new ApplicationException(ErrorType.INVALID_INPUT, "Company email is Taken");
 		}
 
-		if (companyDao.isCompanyExistsByName(company.getName())) {
+		if (companyDao.isCompanyExistsByName(company.getCompanyName())) {
 			throw new ApplicationException(ErrorType.INVALID_INPUT, "Company name is Taken");
 		}
 
-		if (!REGEX.isEmailValid(company.getEmail())) {
+		if (!REGEX.isEmailValid(company.getCompanyEmail())) {
 			throw new ApplicationException(ErrorType.INVALID_INPUT, "Company Email invalid");
 		}
 
@@ -90,11 +90,11 @@ public class CompanyController {
 
 	private void isCompanyValidToUpdate(Company company) throws ApplicationException {
 
-		if (company.getName() == null || company.getName().length() < 2) {
+		if (company.getCompanyName() == null || company.getCompanyName().length() < 2) {
 			throw new ApplicationException(ErrorType.INVALID_INPUT, "Company name needs to be at least 3 characters");
 		}
 
-		if (!REGEX.isEmailValid(company.getEmail())) {
+		if (!REGEX.isEmailValid(company.getCompanyEmail())) {
 			throw new ApplicationException(ErrorType.INVALID_INPUT, "Company Email invalid");
 		}
 

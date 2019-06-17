@@ -29,8 +29,8 @@ public class CompaniesDao implements ICompaniesDao {
 			connection = JdbcUtils.getConnection();
 			String sqlStatement = "INSERT INTO companies (company_name ,company_email) VALUES (?,?)";
 			preparedStatement = connection.prepareStatement(sqlStatement, PreparedStatement.RETURN_GENERATED_KEYS);
-			preparedStatement.setString(1, company.getName());
-			preparedStatement.setString(2, company.getEmail());
+			preparedStatement.setString(1, company.getCompanyName());
+			preparedStatement.setString(2, company.getCompanyEmail());
 			preparedStatement.executeUpdate();
 			result = preparedStatement.getGeneratedKeys();
 			if (result.next()) {
@@ -58,8 +58,8 @@ public class CompaniesDao implements ICompaniesDao {
 			connection = JdbcUtils.getConnection();
 			String sqlStatement = "UPDATE COMPANIES SET company_name=?, company_email=? WHERE company_id=?";
 			preparedStatement = connection.prepareStatement(sqlStatement);
-			preparedStatement.setString(1, company.getName());
-			preparedStatement.setString(2, company.getEmail());
+			preparedStatement.setString(1, company.getCompanyName());
+			preparedStatement.setString(2, company.getCompanyEmail());
 			preparedStatement.setLong(3, company.getId());
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -258,8 +258,8 @@ public class CompaniesDao implements ICompaniesDao {
 	private Company extractCompanyFromResultSet(ResultSet result) throws ApplicationException, SQLException {
 			Company company = new Company();
 			company.setId(result.getLong("company_id"));
-			company.setName(result.getString("company_name"));
-			company.setEmail(result.getString("company_email"));
+			company.setCompanyName(result.getString("company_name"));
+			company.setCompanyEmail(result.getString("company_email"));
 			return company;
 
 
