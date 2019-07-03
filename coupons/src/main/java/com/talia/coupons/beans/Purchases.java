@@ -1,6 +1,9 @@
 package com.talia.coupons.beans;
 
 public class Purchases {
+	
+	// ATTRIBUTES
+	
 	private long purchaseId;
 	private long customerId;
 	private long couponId;

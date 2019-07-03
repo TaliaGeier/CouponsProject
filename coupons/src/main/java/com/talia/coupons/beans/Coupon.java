@@ -6,10 +6,7 @@ import java.util.Date;
 
 import com.talia.coupons.enums.Category;
 
-/**
- * Coupon - this class represents the attributes and functions necessary to
- * create a coupon.
- */
+
 public class Coupon {
 
 	// ----------------------ATTRIBUTES----------------------
@@ -25,7 +22,7 @@ public class Coupon {
 	private double price;
 	private String img;
 
-	// ----------------------Get & Set----------------------
+	// ----------------------Getters & Setters ----------------------
 
 	public long getCouponId() {
 		return couponId;
@@ -107,6 +104,8 @@ public class Coupon {
 		this.img = img;
 	}
 
+	// ----------------------CONSTRUCTORS ----------------------
+	
 	public Coupon(long couponId, long companyId, Category category, String title, String description, Date start_date,
 			Date end_date, int amount, double price, String img) {
 		super();
@@ -157,6 +156,9 @@ public class Coupon {
 	public Coupon() {
 		super();
 	}
+	
+	// ----------------------FUNCTIONS ----------------------
+
 
 	@Override
 	public String toString() {

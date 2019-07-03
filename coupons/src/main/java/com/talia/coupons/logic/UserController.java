@@ -159,12 +159,12 @@ public class UserController {
 			return;
 		}
 
-		/*
-		 * if the user is an administrator.
-		 */
-		if (userToDelete.getUserLoginDetails().getType() == ClientType.ADMINISTRATOR) {
-			throw new ApplicationException(ErrorType.GENERAL_ERROR, "Cant delete administrators");
-		}
+//		/*
+//		 * if the user is an administrator.
+//		 */
+//		if (userToDelete.getUserLoginDetails().getType() == ClientType.ADMINISTRATOR) {
+//			throw new ApplicationException(ErrorType.GENERAL_ERROR, "Cant delete administrators");
+//		}
 
 	}
 }

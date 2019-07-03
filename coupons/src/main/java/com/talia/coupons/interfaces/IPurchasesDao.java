@@ -28,6 +28,8 @@ public interface IPurchasesDao {
 	List<Purchases> getPurchasesByCouponId(long couponId) throws ApplicationException;
 
 	List<Purchases> getPurchasesByCompanyId(long companyId) throws ApplicationException;
+	
+	List<Purchases> getPurchasesByCystomerId(long customerId) throws ApplicationException;
 
 	boolean isPurchaseExistsById(long purchaseId) throws ApplicationException;
 

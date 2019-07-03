@@ -63,13 +63,7 @@ public class Customer {
 	}
 	
 
-	// Without the id attribute
-	
-//	public Customer(String customerFirstName, String customerLastName) {
-//		super();
-//		this.customerFirstName = customerFirstName;
-//		this.customerLastName = customerLastName;
-//	}
+
 
 	// Empty Constructor
 

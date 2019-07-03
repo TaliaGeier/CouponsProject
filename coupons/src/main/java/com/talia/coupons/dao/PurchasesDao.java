@@ -291,6 +291,40 @@ public class PurchasesDao implements IPurchasesDao{
 			JdbcUtils.closeResources(connection, preparedStatement, result);
 		}
 	}
+	
+	
+	
+	public List<Purchases> getPurchasesByCystomerId(long customerId) throws ApplicationException {
+
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet result = null;
+		Purchases tempPurchase = new Purchases();
+		List<Purchases> purchasesList = new ArrayList<Purchases>();
+
+		try {
+			connection = JdbcUtils.getConnection();
+			preparedStatement = connection.prepareStatement("SELECT * FROM purchases WHERE customer_id = ?");
+			preparedStatement.setLong(1, customerId);
+			result = preparedStatement.executeQuery();
+
+			while (result.next()) {
+				tempPurchase = extractPurchaseFromResultSet(result);
+				purchasesList.add(tempPurchase);
+			}
+
+			return purchasesList;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new ApplicationException(e, ErrorType.READ_ERROR,
+					"Failed to get all purchases by customer");
+		} finally {
+			JdbcUtils.closeResources(connection, preparedStatement, result);
+		}
+	}
+
+
 
 	public boolean isPurchaseExistsById(long purchaseId) throws ApplicationException {
 		Connection connection = null;
@@ -332,5 +366,7 @@ public class PurchasesDao implements IPurchasesDao{
 		return purchase;
 	
 	}
+
+	
 
 }

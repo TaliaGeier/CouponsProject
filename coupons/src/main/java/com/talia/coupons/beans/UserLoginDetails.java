@@ -4,13 +4,15 @@ import com.talia.coupons.enums.ClientType;
 
 public class UserLoginDetails {
 
+	// ATTRIBUTES 
+	
 	private String userEmail;
 	private String password;
 	private ClientType type;
 	private int token;
-//	private long companyID;
 	
 	
+	// GETTERS AND SETTERS
 	
 	public int getToken() {
 		return token;
@@ -18,13 +20,8 @@ public class UserLoginDetails {
 	public void setToken(int token) {
 		this.token = token;
 	}
-//	public long getCompanyID() {
-//		return companyID;
-//	}
-//	public void setCompanyID(long companyID) {
-//		this.companyID = companyID;
-//	}
-	// GETTERS AND SETTERS
+
+
 	public String getUserEmail() {
 		return userEmail;
 	}
@@ -73,6 +70,8 @@ public class UserLoginDetails {
 	public UserLoginDetails() {
 		super();
 	}
+	
+	// FUNCTION
 	
 	public String toString() {
 		return "userEmail:" + userEmail + ", password:" + password + ", type:" + type;

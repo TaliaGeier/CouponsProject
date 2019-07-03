@@ -10,15 +10,7 @@ public class Company {
 	// ----------------------Get & Set----------------------
 
 
-	// ----------------------Constructors----------------------
-
-	// With the id attribute
-	public Company(long id, String email, String name) {
-		super();
-		this.id = id;
-		this.companyEmail = email;
-		this.companyName = name;
-	}
+	
 
 	public long getId() {
 		return id;
@@ -44,6 +36,16 @@ public class Company {
 		this.companyEmail = companyEmail;
 	}
 
+	
+	// ----------------------Constructors----------------------
+
+		// With the id attribute
+		public Company(long id, String email, String name) {
+			super();
+			this.id = id;
+			this.companyEmail = email;
+			this.companyName = name;
+		}
 	// Without the id attribute
 	public Company(String email, String name) {
 		super();

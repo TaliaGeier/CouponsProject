@@ -100,7 +100,6 @@ public class CompanyController {
 
 	}
 
-	// temporary fix - need to ask avi
 	private void deleteCompanyLogic(long companyId) throws ApplicationException {
 
 		try {

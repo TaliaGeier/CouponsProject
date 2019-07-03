@@ -49,6 +49,11 @@ public class PurchaseController {
 
 		return purchaseDao.getAllPurchases();
 	}
+	
+	public List<Purchases> getPurchasesByCystomerId(long customerId) throws ApplicationException {
+
+		return purchaseDao.getPurchasesByCystomerId(customerId);
+	}
 
 	public void deletePurchase(long purchaseID) throws ApplicationException {
 		

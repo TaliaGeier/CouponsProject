@@ -37,12 +37,9 @@ public class CustomersDao implements ICustomersDao {
 
 			preparedStatement.executeUpdate();
 			
-//			if (getOneCustomer(customer.getUser().getUserId()) != null) {
-//			
-//			}
+
 			return customer.getUser().getUserId();
 			
-//			throw new ApplicationException(ErrorType.INSERTION_ERROR, "Failed to create new customer");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new ApplicationException(e, ErrorType.INSERTION_ERROR, "Failed to create new customer");
@@ -196,7 +193,6 @@ public class CustomersDao implements ICustomersDao {
 		
 		user.setUserId(result.getLong("customer_id"));
 		user = userDao.getOneUser(user.getUserId());
-//		customer.setCustomerId(user.getUserId());
 		customer.setUser(user);
 
 		return customer;

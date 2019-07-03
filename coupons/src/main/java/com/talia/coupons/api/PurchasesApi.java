@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.talia.coupons.beans.Coupon;
 import com.talia.coupons.beans.Purchases;
 import com.talia.coupons.exceptions.ApplicationException;
 import com.talia.coupons.logic.PurchaseController;
@@ -34,6 +36,11 @@ public class PurchasesApi {
 	@GetMapping
 	public List<Purchases> getAllPurchases() throws ApplicationException {
 		return purchaseController.getAllPurchases();
+	}
+	
+	@GetMapping("/byCustomer")
+	public List<Purchases> getPurchasesByCystomerId(@RequestParam("customerId") long customerId) throws ApplicationException {
+		return purchaseController.getPurchasesByCystomerId(customerId);
 	}
 
 	@DeleteMapping("/{purchaseId}")

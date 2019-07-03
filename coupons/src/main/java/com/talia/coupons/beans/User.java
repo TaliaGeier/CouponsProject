@@ -3,6 +3,7 @@ package com.talia.coupons.beans;
 
 public class User {
 	
+	//ATTRIBUTES
 	private long userId;
 	private Long companyId;
 	private UserLoginDetails userLoginDetails;
@@ -63,7 +64,7 @@ public class User {
 	}
 	
 	
-	
+	// FUNCTION
 	public String toString() {
 		return " USER [userId:" + userId + ", companyId:" + companyId + ", UserLoginDetails:" + userLoginDetails + "]";
 	}
