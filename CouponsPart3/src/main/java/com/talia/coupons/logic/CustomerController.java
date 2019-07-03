@@ -50,12 +50,6 @@ public class CustomerController {
 
 	}
 	
-//	public boolean isCustomerExists (long customerID)throws ApplicationException {
-//		if(customerDao.isCustomerExistsById(customerID)) {
-//			return true;
-//		}
-//		return false;
-//	}
  
 	private void isCustomerValid(Customer customer) throws ApplicationException {
 		if (customer.getCustomerFirstName().length() < 2) {
