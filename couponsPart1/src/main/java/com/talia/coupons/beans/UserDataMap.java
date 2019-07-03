@@ -2,10 +2,7 @@ package com.talia.coupons.beans;
 
 import com.talia.coupons.enums.ClientType;
 
-/**
- * @author talia_ngnice3
- *
- */
+
 public class UserDataMap {
 	
 	private long userID;

@@ -3,15 +3,11 @@ package com.talia.coupons.beans;
 public class Customer {
 
 	// ----------------------ATTRIBUTES----------------------
-//	private long customerId;
 	
 	private String customerFirstName;
 	private String customerLastName;
 	private User user;
 	// ----------------------Get & Set----------------------
-//	public long getCustomerId() {
-//		return customerId;
-//	}
 
 	public void setUserId(long userId) {
 		this.user.setUserId(userId);
@@ -30,9 +26,6 @@ public class Customer {
 
 
 
-//	public void setCustomerId(long customerId) {
-//		this.customerId = customerId;
-//	}
 
 	public String getCustomerFirstName() {
 		return customerFirstName;
